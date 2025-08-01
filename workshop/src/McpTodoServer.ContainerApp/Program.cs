@@ -11,7 +11,7 @@ builder.Services.AddMcpServer()
 
 // SQLite 인메모리 DB 등록
 builder.Services.AddDbContext<TodoDbContext>(options =>
-    options.UseSqlite("DataSource=:memory:")
+    options.UseSqlite("DataSource=:todo.db")
            .EnableSensitiveDataLogging()
 );
 
