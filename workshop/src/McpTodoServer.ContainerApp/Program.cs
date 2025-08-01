@@ -4,6 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// MCP 서버 등록
+builder.Services.AddMcpServer()
+                .WithHttpTransport(o => o.Stateless = true)
+                .WithToolsFromAssembly();
 
 // SQLite 인메모리 DB 등록
 builder.Services.AddDbContext<TodoDbContext>(options =>
