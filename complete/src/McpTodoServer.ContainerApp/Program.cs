@@ -7,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connection = new SqliteConnection("Filename=:memory:");
+//var connection = new SqliteConnection("Filename=:memory:");
+var connection = new SqliteConnection("DataSource=:memory:");
 connection.Open();
 
 builder.Services.AddSingleton(connection);

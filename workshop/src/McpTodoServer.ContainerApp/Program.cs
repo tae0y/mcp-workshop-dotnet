@@ -11,7 +11,7 @@ builder.Services.AddMcpServer()
 
 // SQLite 인메모리 DB 등록
 // Create and open a single SQLite in-memory connection for the application's lifetime
-var sqliteConnection = new Microsoft.Data.Sqlite.SqliteConnection("DataSource=./todo.db");
+var sqliteConnection = new Microsoft.Data.Sqlite.SqliteConnection("Filename=:memory:");
 sqliteConnection.Open();
 
 builder.Services.AddDbContext<TodoDbContext>(options =>
