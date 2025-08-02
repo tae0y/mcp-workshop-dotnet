@@ -150,10 +150,11 @@ In the `start` directory, an ASP.NET Core Minimal API app is already scaffolded.
     ```text
     I'd like to implement a to-do list management logic in the ASP.NET Core Minimal API app. Follow the instructions below for the app development.
     
-    - Use context7.
+    - Use context7 tool.
     - Identify all the steps first, which you're going to do.
     - Your working directory is `workshop/src/McpTodoServer.ContainerApp`.
     - Use SQLite as a database and should use the in-memory feature.
+    - Database should be consistently shared across the entire application.
     - Use EntityFramework Core for database transaction.
     - Initialize database at the start of the app.
     - To-do item only contains `ID`, `Text` and `IsCompleted` columns.
