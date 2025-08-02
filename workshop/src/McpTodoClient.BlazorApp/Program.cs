@@ -6,10 +6,37 @@ using Microsoft.Extensions.AI;
 
 using OpenAI;
 
+using ModelContextProtocol.Client;
+using ModelContextProtocol.Protocol;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
+
+builder.Services.AddSingleton<IMcpClient>(sp =>
+{
+    var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
+
+    var uri = new Uri("http://localhost:5242");
+
+    var clientTransportOptions = new SseClientTransportOptions()
+    {
+        Endpoint = new Uri($"{uri.AbsoluteUri.TrimEnd('/')}/mcp")
+    };
+    var clientTransport = new SseClientTransport(clientTransportOptions, loggerFactory);
+
+    var clientOptions = new McpClientOptions()
+    {
+        ClientInfo = new Implementation()
+        {
+            Name = "MCP Todo Client",
+            Version = "1.0.0",
+        }
+    };
+
+    return McpClientFactory.CreateAsync(clientTransport, clientOptions, loggerFactory).GetAwaiter().GetResult();
+});
 
 var config = builder.Configuration;
 var token = config["GitHubModels:Token"] ?? throw new InvalidOperationException("Missing configuration: GitHubModels:Token.");

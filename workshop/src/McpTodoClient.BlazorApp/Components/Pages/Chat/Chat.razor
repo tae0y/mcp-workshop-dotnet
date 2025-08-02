@@ -2,7 +2,11 @@
 
 @using System.ComponentModel
 
+@using ModelContextProtocol.Client
+
 @inject IChatClient ChatClient
+
+@inject IMcpClient McpClient
 
 @implements IDisposable
 
@@ -22,6 +26,8 @@
 </div>
 
 @code {
+    private IEnumerable<McpClientTool> tools = null!;
+
     private const string SystemPrompt = @"
         You are an assistant who answers questions about information you retrieve.
         Use only simple markdown to format your responses.
@@ -33,9 +39,11 @@
     private ChatMessage? currentResponseMessage;
     private ChatInput? chatInput;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         messages.Add(new(ChatRole.System, SystemPrompt));
+        tools = await McpClient.ListToolsAsync();
+        chatOptions.Tools = [.. tools];
     }
 
     private async Task AddUserMessageAsync(ChatMessage userMessage)
